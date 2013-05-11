@@ -7,8 +7,18 @@ var dbs = require('./dbs.json');
 
 
 module.exports = function MultilevelReconnectingClient(db,opts){
+  // db is a multilevel instance and i can perhaps pick net options off of it.
+  // i shouldn't use net options becaiuse reconnect works for more things than net.
   var o = {
-    // options.
+    //
+    // options. 
+    // port:
+    // host:
+    // auth:
+    // timeout:
+    // retries:
+    // streamRetries:
+    //
     _opts:opts,
     // handle to multilevel
     _db:false,
