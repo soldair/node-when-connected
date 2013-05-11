@@ -1,0 +1,19 @@
+{
+  "name": "multilevel-reconncted",
+  "version": "0.0.0",
+  "description": "reconnection retry and stream continuation for multilevel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "leveldb",
+    "reconnect",
+    "multilevel",
+    "levelup",
+    "bigdata"
+  ],
+  "author": "Ryan Day",
+  "license": "MIT"
+}
