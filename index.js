@@ -50,6 +50,9 @@ module.exports = function(fn,opts){
     return s;
   }
 
+  // expose queue for external inspection.
+  ret.q = q;
+
   return ret;
 }
 
