@@ -1,19 +1,26 @@
 {
-  "name": "multilevel-reconncted",
+  "name": "when-connected",
   "version": "0.0.0",
-  "description": "reconnection retry and stream continuation for multilevel",
+  "description": "call an async method with configurable timeout and when connected if reconnect is used",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tape test/test.js"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/soldair/node-when-connected.git"
+  },
   "keywords": [
-    "leveldb",
     "reconnect",
-    "multilevel",
-    "levelup",
-    "bigdata"
+    "timeout"
   ],
   "author": "Ryan Day",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "through": "~2.3.4",
+    "binarysearch": "~0.2.0"
+  },
+  "devDependencies": {
+    "tap": "~0.4.2"
+  }
 }
