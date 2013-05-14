@@ -27,21 +27,24 @@ module.exports = function(fn,opts){
 
     if(opts.timeout > -1) {
       timeout = setTimeout(function(){
+
+        var e = new Error("E_TIMEDOUT callback took too long to fire or it took too long to connect. "+id);
+        e.code = "E_TIMEDOUT";
+
         if(typeof args[args.length-1] === 'function'){
-          
-          var e = new Error("E_TIMEDOUT callback took too long to fire or it took too long to connect. "+id);
-          e.code = "E_TIMEDOUT";
           args[args.length-1](e);
           args[args.length-1] = false;
         }
 
-        if(opts.stream){
-          stream.end
+        if(s){
+          s.emit('error',e);
         }//else no way to let you know.
+
         if(!connected) {
           var index = binarysearch(q,id);
           if(index > 0) q.splice(index,1);
         }
+ 
       },opts.timeout);
     }
     var data = {a:args,t:timeout,s:s,v:i++};
