@@ -1,3 +1,6 @@
+
+[![Build Status](https://secure.travis-ci.org/soldair/node-when-connected.png)](http://travis-ci.org/soldair/node-when-connected)
+
 when-connected
 =============
 
