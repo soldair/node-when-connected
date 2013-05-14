@@ -5,8 +5,8 @@ module.exports = function(fn,opts){
   var q = [],connected = true,i = 0;
   opts = opts||{};
   if(opts.reconnect){
-    connected = recon.connected;
-    recon.on('connect',function(){
+    connected = opts.reconnect.connected;
+    opts.reconnect.on('connect',function(){
       connected = true;
       while(q.length) {
         run(fn,q.shift())
@@ -20,7 +20,12 @@ module.exports = function(fn,opts){
     var s;
     if(opts.stream) s = through();
     var args = arguments,timeout,id = i++;
-    if(opts.timeout) {
+    if(module.exports.timeout && !opts.timeout) {
+      // a global tiumeout has been provided.
+      opts.timeout = module.exports.timeout;
+    }
+
+    if(opts.timeout > -1) {
       timeout = setTimeout(function(){
         if(typeof args[args.length-1] === 'function'){
           
@@ -49,7 +54,7 @@ module.exports = function(fn,opts){
 }
 
 
-module.exports.timeout = 10000;
+module.exports.timeout = -1;
 
 function run(fn,args) {
   var stream = args.s
