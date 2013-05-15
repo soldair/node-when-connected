@@ -52,36 +52,42 @@ api
 
 this exports one function.
 
-- whenConnected([the function to call when connected],[options])
+```js
+whenConnected([the function to call when connected],[options])
+```
 
-- options
-  - reconnect
+options
+-------
+
+- reconnect
     - an EventEmitter that provides two events [connect],[disconnect] and has a [connected] property which will be used to understand the inital state of the connection.
     - if no reconnect is passed this will still work but about the only other useful thing it provides is timeout callbacks.
-  - stream
+- stream
     - required if the wrapped method returns a stream.
     - TODO duplex. if anyone needs it.
-  - timeout
+- timeout
     - optional default -1 / no timeout
     - a maximum numbner of miliseconds to wait for... 
     - any callback method to call back
     - or any stream method to get called and return a stream
     - the error object will have a [code] property that equals 'E_TIMEDOUT'
-  - retries
+- retries
     - optional default 0
     - the number of times the wrapped call should be retried if a 'disconnect' event is fired before the callback is complete.
     - this does not increase the timeout for the call.
     - if retires is exceded or not provided any disconnect while waiting for a call will callback with an E_DISCONNECT error
 
 
-- errors
-  - error objects returned by this lib all have a code proerty that is one of these values. they are either emitted as errors onn streams or passed as the error to a callback.
-    - E_TIMEDOUT
-      - the time for callback to be called excedes specified value.
-      - the time to get a connection to a method that returns a stream took to long to get a connection.
-    - E_DISCONNECT
-      - a disconnect event has been fired while a callback was pending.
-      - a disconnect event was fired before the end event was triggered on a stream.
-    - E_NOTSTREAM [ throw / crash your program ]
-      - a method defined as returns streams did not return a stream.
+errors
+------
+error objects returned by this lib all have a code proerty that is one of these values. they are either emitted as errors onn streams or passed as the error to a callback.
+
+- E_TIMEDOUT
+    - the time for callback to be called excedes specified value.
+    - the time to get a connection to a method that returns a stream took to long to get a connection.
+- E_DISCONNECT
+    - a disconnect event has been fired while a callback was pending.
+    - a disconnect event was fired before the end event was triggered on a stream.
+- E_NOTSTREAM
+    - a method defined as returns streams did not return a stream. this is emitted on the proxy stream you have a handle too so bind error
 
