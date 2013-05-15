@@ -1,6 +1,7 @@
 var test = require('tap').test;
 var through = require('through');
 var wc = require('../index');
+var EventEmitter = require('events').EventEmitter;
 
 test("can callback",function(t){
   var a = wc(function(cb){
@@ -38,7 +39,6 @@ test("can stream",function(t){
   t.plan(1);
 
   var a = wc(function(){
-    console.log('getting stream');
     var s = through();
     process.nextTick(function(){
       s.write('hi');
@@ -54,8 +54,52 @@ test("can stream",function(t){
   });
 
   stream.on('end',function(){
-    t.equals(out,'hi','should have said hi though stream.');
+    t.equals(out,'hi','should have said hi through stream.');
   });
 
 });
+
+
+test("callback gets disconnected",function(t){
+
+  t.plan(1);
+
+  var recon = new EventEmitter();
+  var a = wc(function(cb){
+    recon.emit('disconnect');
+  },{reconnect:recon});
+
+  a(function(err,data){
+    t.ok(err,' should have called back with error if disconnected while waiting for callback.');
+  });
+  recon.emit('connect');
+
+});
+
+test("callback gets re-tried",function(t){
+   t.plan(2);
+
+  var count = 0;
+  var recon = new EventEmitter();
+  var a = wc(function(cb){
+    count++;
+    if(count === 1) {
+      recon.emit('disconnect');
+      process.nextTick(function(){
+        recon.emit('connect');
+      });
+    } else cb(false,'yay!');
+  },{reconnect:recon,retries:1});
+
+  a(function(err,data){
+    
+    t.ok(!err,' should not have error because retry.');
+    t.equals(count,2,' should have hit method twice');
+  });
+
+  recon.emit('connect');
+
+ 
+});
+
 
