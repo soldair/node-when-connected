@@ -4,7 +4,7 @@
   "description": "call an async method with configurable timeout and when connected if reconnect is used",
   "main": "index.js",
   "scripts": {
-    "test": "tape test/test.js"
+    "test": "tap test/test.js"
   },
   "repository": {
     "type": "git",
